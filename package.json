@@ -1,0 +1,26 @@
+{
+  "name": "synchronicity",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "backpack",
+    "build": "backpack build"
+  },
+  "dependencies": {
+    "awesome-typescript-loader": "^4.0.1",
+    "backpack-core": "^0.5.0",
+    "body-parser": "~1.18.2",
+    "chalk": "^2.3.2",
+    "cookie-parser": "~1.4.3",
+    "debug": "~2.6.9",
+    "express": "~4.15.5",
+    "hbs": "~4.0.1",
+    "morgan": "~1.9.0",
+    "serve-favicon": "~2.4.5",
+    "source-map-loader": "^0.2.3",
+    "typescript": "^2.7.2"
+  },
+  "devDependencies": {
+    "@types/node": "^9.4.7"
+  }
+}

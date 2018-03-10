@@ -1,0 +1,4 @@
+build/
+.DS_STORE
+.idea
+# Not node_modules yet bc of npm being blocked on computers
