@@ -1,3 +1,6 @@
+
+export {}
+
 /**
  * Module dependencies.
  */
@@ -5,8 +8,6 @@ const app = require('./app');
 const debug = require('debug')('synchronicity:server');
 const http = require('http');
 const chalk = require('chalk');
-
-let a : string = "foo";
 
 /**
  * Normalize a port into a number, string, or false.
