@@ -1,3 +1,4 @@
+import Message from "./net/Message";
 
 export {}
 
@@ -10,6 +11,7 @@ const http = require('http');
 const chalk = require('chalk');
 
 import {PeerNetwork} from './net/PeerNetwork'
+import {MessageType} from "./net/MessageType";
 
 /**
  * Normalize a port into a number, string, or false.
@@ -58,7 +60,6 @@ const onError = (error) => {
   }
 };
 
-
 /**
  * Get port from environment and store in Express.
  */
@@ -75,14 +76,35 @@ class Main{
   constructor() {
     const peerNetwork:PeerNetwork = new PeerNetwork();
 
-    //Callback Websocket events to the Peer network
+    //Callback WebSocket events to the Peer network
     io.on('connection', (socket) => {
+      //Store local variable because of issue with disconnect
+       let localSocket = socket;
+
       peerNetwork.onConnect(socket);
-      socket.on('message', (msg) => peerNetwork.onMessage(msg, socket));
+        socket.on('message', (msg) => {
+           let type = null;
+
+          //Find the correct message type
+          switch(msg.type) {
+              case "QUERY_ALL":
+                type = MessageType.QUERY_ALL;
+                break;
+              case "QUERY_LATEST":
+                type = MessageType.QUERY_LATEST;
+                break;
+              case "RESPONSE_BLOCKCHAIN":
+                type = MessageType.RESPONSE_BLOCKCHAIN;
+                break;
+          }
+
+          //Callback peerNetwork to make it aware that a new message arrived
+          peerNetwork.onMessage(new Message(type, msg.message), socket);
+        });
+
+        socket.on('disconnect', () => peerNetwork.onDisconnect(localSocket));
+
     });
-    io.on('disconnect', (socket) => peerNetwork.onDisconnect(socket));
-
-
     server.listen(port);
     server.on('error', onError);
     server.on('listening', () => {

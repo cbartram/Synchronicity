@@ -37,7 +37,7 @@ app.use((err, req, res, next) => {
 
 
 app.get('/', function(req, res){
-  res.sendFile('/Users/christianbartram/WebstormProjects/synchronicity/public/index.html');
+  res.sendFile('/Users/ilp281/Downloads/Synchronicity-master/public/index.html');
 });
 
 app.get('/blocks', (req, res) => {

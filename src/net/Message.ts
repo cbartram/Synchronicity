@@ -5,6 +5,19 @@
 import { MessageType } from './MessageType'
 
 export default class Message {
-    public type: MessageType;
-    public data: any;
+    private type: MessageType;
+    private data: any;
+
+    constructor(type: MessageType, data: any) {
+        this.type = type;
+        this.data = data;
+    }
+
+    getMessageType(): MessageType {
+        return this.type;
+    }
+
+    getMessageData<T>(): T {
+        return this.data;
+    }
 }

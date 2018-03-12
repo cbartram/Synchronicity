@@ -4,6 +4,8 @@
  * Created by christianbartram on 3/11/18.
  */
 abstract class AbstractSocketListener {
+    abstract sockets: object;
+
     abstract onConnect(socket): void;
     abstract onDisconnect(socket): void;
     abstract onMessage(message, socket): void;

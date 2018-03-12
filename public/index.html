@@ -12,9 +12,8 @@
 <script>
     let socket = io("http://localhost:3000");
 
-    document.getElementById("button").addEventListener('click', function() {
-        console.log("Emitting message");
-       socket.emit('message', 'Emit test')
+    document.getElementById("button").addEventListener('click', () => {
+        socket.emit('message', 'Emit test')
     });
 </script>
 </html>

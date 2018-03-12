@@ -1,10 +1,12 @@
 # Synchronicity
 
-One Paragraph of project description goes here
+Synchronicity is a simple API to manage a single Application state shared by multiple clients and is built 
+with on top of a peer to peer network and block-chain inspiration.
 
-## Getting Started
+## Quick Start
 
-These instructions will get you a copy of the project up and running on your local machine for development and testing purposes. See deployment for notes on how to deploy the project on a live system.
+To get started simply install the package from npm: `npm i --save synchronicity` and include it in your local
+project `import * from 'synchronicity'`
 
 ### Prerequisites
 
