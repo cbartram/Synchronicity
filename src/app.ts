@@ -3,31 +3,26 @@
  *
  * @author Christian Bartram
  */
-export {};
-
 const express = require('express');
 const path = require('path');
-const logger = require('morgan');
 const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
 
+import {Block, next, getBlockchain} from './Block';
+// import { getSockets, initServer} from './net/PeerNetwork';
+
 let app = express();
+const peerToPeerPort = parseInt(process.env.P2P_PORT) || 6001;
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'hbs');
 
 //Middleware Setup
-app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
-
-// catch 404 and forward to error handler
-app.use((req, res, next) => {
-  next();
-});
 
 // error handler
 app.use((err, req, res, next) => {
@@ -40,4 +35,26 @@ app.use((err, req, res, next) => {
   res.render('error');
 });
 
+
+app.get('/', function(req, res){
+  res.sendFile('/Users/christianbartram/WebstormProjects/synchronicity/public/index.html');
+});
+
+app.get('/blocks', (req, res) => {
+  res.send(getBlockchain());
+});
+app.post('/mineBlock', (req, res) => {
+  const newBlock: Block = next(req.body.data);
+  res.send(newBlock);
+});
+app.get('/peers', (req, res) => {
+ // res.send(getSockets().map(( s: any ) => s._socket.remoteAddress + ':' + s._socket.remotePort));
+});
+app.post('/addPeer', (req, res) => {
+  //connectToPeers(req.body.peer);
+  res.send();
+});
+
+
+//initServer(peerToPeerPort);
 module.exports = app;

@@ -42,14 +42,15 @@ let blockchain: Block[] = [genesisBlock];
 const getBlockchain = (): Block[] => blockchain;
 const getLatestBlock = (): Block => blockchain[blockchain.length - 1];
 
-const next = (blockData: string) => {
+const next = (blockData: string): Block => {
     const previousBlock: Block = getLatestBlock();
     const nextIndex: number = previousBlock.getIndex() + 1; //[1, 2, 3] => 3 is the next index we need to insert at
     const nextTimestamp: number = new Date().getTime() / 1000;
     const nextHash: string = calculateHash(nextIndex, previousBlock.getHash(), nextTimestamp, blockData);
     const newBlock: Block = new Block(nextIndex, nextHash, previousBlock.getHash(), nextTimestamp, blockData);
 
-    addBlock(newBlock)
+    addBlock(newBlock);
+    return newBlock;
 };
 
 const addBlock = (block: Block) => {

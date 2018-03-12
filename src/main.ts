@@ -9,6 +9,8 @@ const debug = require('debug')('synchronicity:server');
 const http = require('http');
 const chalk = require('chalk');
 
+import {PeerNetwork} from './net/PeerNetwork'
+
 /**
  * Normalize a port into a number, string, or false.
  */
@@ -67,16 +69,31 @@ app.set('port', port);
  * Create HTTP server.
  */
 const server = http.createServer(app);
+const io = require('socket.io')(server);
 
-/**
- * Listen on provided port, on all network interfaces.
- */
+class Main{
+  constructor() {
+    const peerNetwork:PeerNetwork = new PeerNetwork();
 
-server.listen(port);
-server.on('error', onError);
-server.on('listening', () => {
-    console.log(chalk.blue('Running version 1.0.0'));
-    console.log(chalk.blue('---------------------------------'));
-    console.log(chalk.blue(`| Server Listening on Port 3000 |`));
-    console.log(chalk.blue('---------------------------------'));
-});
+    //Callback Websocket events to the Peer network
+    io.on('connection', (socket) => {
+      peerNetwork.onConnect(socket);
+      socket.on('message', (msg) => peerNetwork.onMessage(msg, socket));
+    });
+    io.on('disconnect', (socket) => peerNetwork.onDisconnect(socket));
+
+
+    server.listen(port);
+    server.on('error', onError);
+    server.on('listening', () => {
+      console.log(chalk.blue('Running version 1.0.0'));
+      console.log(chalk.blue('---------------------------------'));
+      console.log(chalk.blue(`| Server Listening on Port 3000 |`));
+      console.log(chalk.blue('---------------------------------'));
+    });
+  }
+}
+
+
+//Instantiate Main Class
+new Main();
