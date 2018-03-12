@@ -7,6 +7,16 @@ import Message from './Message';
 import {MessageType} from './MessageType';
 import AbstractSocketListener from "./AbstractSocketListener";
 
+// const sockets: WebSocket[] = [];
+
+const initServer = (port: number) => {
+        console.log(`Server Listening on Websocket port: ${port}` );
+};
+
+const socketConnection = (socket: object) => {
+  console.log("We got the socket!", socket);
+};
+
 // const getSockets = () => sockets;
 
 const initConnection = (ws) => {
@@ -121,8 +131,6 @@ const broadcastLatest = (): void => {
 
 
 class PeerNetwork extends AbstractSocketListener {
-
-
     onConnect(socket) {
         console.log("We have socket");
     }
